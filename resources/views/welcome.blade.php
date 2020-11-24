@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+{{-- <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <meta charset="utf-8">
@@ -97,4 +97,15 @@
             </div>
         </div>
     </body>
-</html>
+</html> --}}
+@extends('layouts.app')
+
+@section('content')
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <a href="">Gift</a>
+        </div>
+    </div>
+</div>
+@endsection
