@@ -19,5 +19,14 @@ Route::get('/', function () {
 
 Auth::routes();
 
+// global
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/', 'GuestController@index');
+Route::get('/{id}/product','GuestController@show');
+Route::get('/{id}/detail','GuestController@detail');
+
+//manager
 Route::get('/manager', 'HomeController@manager')->middleware('auth','checkAdmin');
+Route::get('/{id}/product/edit','GuestController@edit'); //edit flower
+Route::post('/{id}/product/update','GuestController@update'); //update flower
+Route::get('/{id}/product/delete','GuestController@destroy'); //delete flower
