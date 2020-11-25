@@ -27,6 +27,8 @@ Route::get('/{id}/detail','GuestController@detail');
 
 //manager
 Route::get('/manager', 'HomeController@manager')->middleware('auth','checkAdmin');
-Route::get('/{id}/product/edit','GuestController@edit'); //edit flower
-Route::post('/{id}/product/update','GuestController@update'); //update flower
-Route::get('/{id}/product/delete','GuestController@destroy'); //delete flower
+Route::get('/add','GuestController@add')->middleware('auth','checkAdmin'); //view add flower
+Route::post('/add','GuestController@store')->middleware('auth','checkAdmin'); //add flower
+Route::get('/{id}/product/edit','GuestController@edit')->middleware('auth','checkAdmin'); //edit flower
+Route::post('/{id}/product/update','GuestController@update')->middleware('auth','checkAdmin'); //update flower
+Route::get('/{id}/product/delete','GuestController@destroy')->middleware('auth','checkAdmin'); //delete flower

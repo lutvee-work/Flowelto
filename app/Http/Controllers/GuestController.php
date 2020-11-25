@@ -21,6 +21,11 @@ class GuestController extends Controller
         return view('welcome', compact('products'));
     }
 
+    public function add() {
+        $category = Products::all();
+        return view('addFlower', compact('category'));
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -39,7 +44,27 @@ class GuestController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'product_id' => 'required',
+            'name' => 'required|unique:flowers|min:5',
+            'price' => 'required|numeric|min:50000',
+            'description' => 'required|min:20',
+            'image' => 'required',
+        ]);
+
+        $image = $request->file('image');
+        $source = 'images';
+        $image->move($source,$image->getClientOriginalName());
+
+        $flower = new Flowers();
+        $flower->product_id = $request->product_id;
+        $flower->name = $request->name;
+        $flower->price = $request->price;
+        $flower->description = $request->description;
+        $flower->image = $image->getClientOriginalName();
+        $flower->save();
+
+        return back()->with('success', 'Flower Uploaded Successfully');
     }
 
     /**
@@ -56,7 +81,6 @@ class GuestController extends Controller
             'flowers' => $flowers,
             'products' => $products
         ];
-        // dd($data);
         return view('product', compact('data'));
     }
 
@@ -90,17 +114,30 @@ class GuestController extends Controller
     {
         $flowers = Flowers::find($id);
         $image = $request->file('image');
+
+        $this->validate($request, [
+            'product_id' => 'required',
+            'name' => 'required|unique:flowers|min:5',
+            'price' => 'required|numeric|min:50000',
+            'description' => 'required|min:20',
+            'image' => 'nullable',
+        ]);
+
         $data = [
             'product_id' => $request->input('product_id'),
             'name' => $request->input('name'),
             'price' => $request->input('price'),
             'description' => $request->input('description'),
-            'image' => $image->getClientOriginalName()
         ];
-        // blom divalidasi 
+        
+        if(isset($image)) {
+            $source = 'images';
+            $image->move($source,$image->getClientOriginalName());
+            $image->save();
+        }
+
         $flowers->update($data);
-        $source = 'images';
-        $image->move($source,$image->getClientOriginalName());
+        
         return redirect('/manager');
     }
 

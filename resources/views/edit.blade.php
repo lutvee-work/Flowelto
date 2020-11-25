@@ -13,8 +13,17 @@
                 @endforeach
                 </select> <br>
                 Name: <input type="text" name="name" id="" value="{{$data->name}}"><br>
+                @if($errors->has('name'))
+                    <div class="error">{{ $errors->first('name') }}</div>
+                @endif
                 Price: <input type="number" name="price" id="" value="{{$data->price}}"><br>
+                @if($errors->has('price'))
+                    <div class="error">{{ $errors->first('price') }}</div>
+                @endif
                 Description: <input type="text" name="description" id="" value="{{$data->description}}"><br>
+                @if($errors->has('description'))
+                    <div class="error">{{ $errors->first('description') }}</div>
+                @endif
                 Flower Image: <input type="file" name="image" ><br>
                 <input type="submit" value="Update">
             </form>
