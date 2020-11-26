@@ -7,11 +7,15 @@
         @foreach($data['flowers'] as $f)
         <div class="col-md-8">
             @guest
-                <img src="../images/{{$f->image}}" width="400" height="400" alt="">
+                <a href="{{url('/'.$f->id.'/detail')}}">
+                    <img src="../images/{{$f->image}}" width="400" height="400" alt="">
+                </a>
                 <a href="{{url('/'.$f->id.'/detail')}}">{{$f->name}}</a>
                 <p>{{$f->price}}</p>
             @else
-                <img src="../images/{{$f->image}}" width="400" height="400" alt="">
+                <a href="{{url('/'.$f->id.'/detail')}}">
+                    <img src="../images/{{$f->image}}" width="400" height="400" alt="">
+                </a>
                 <a href="{{url('/'.$f->id.'/detail')}}">{{$f->name}}</a>
                 <p>{{$f->price}}</p>
                 @if (Auth::user()->roles->contains(1))

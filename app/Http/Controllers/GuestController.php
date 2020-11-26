@@ -26,6 +26,11 @@ class GuestController extends Controller
         return view('addFlower', compact('category'));
     }
 
+    public function categories(){
+        $products = Products::all();
+        return view('manageCategories', compact('products'));
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -103,6 +108,12 @@ class GuestController extends Controller
         return view('edit', compact('data','category'));
     }
 
+    public function editCategories($id)
+    {
+        $data = Products::find($id);
+        return view('editCategories', compact('data'));
+    }
+
     /**
      * Update the specified resource in storage.
      *
@@ -112,8 +123,6 @@ class GuestController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $flowers = Flowers::find($id);
-        $image = $request->file('image');
 
         $this->validate($request, [
             'product_id' => 'required',
@@ -123,22 +132,50 @@ class GuestController extends Controller
             'image' => 'nullable',
         ]);
 
-        $data = [
-            'product_id' => $request->input('product_id'),
-            'name' => $request->input('name'),
-            'price' => $request->input('price'),
-            'description' => $request->input('description'),
-        ];
+        $flowers = Flowers::find($id);
+
+        $flowers->product_id = $request->input('product_id');
+        $flowers->name = $request->input('name');
+        $flowers->price = $request->input('price');
+        $flowers->description = $request->input('description');
         
-        if(isset($image)) {
+        if (request()->hasFile('image')) {
+
+            $image = $request->file('image');
             $source = 'images';
             $image->move($source,$image->getClientOriginalName());
-            $image->save();
+            $flowers->image = $image->getClientOriginalName();
         }
 
-        $flowers->update($data);
+        $flowers->save();
         
-        return redirect('/manager');
+        return redirect('/manager')->with('success', 'Flower Updated!');
+    }
+
+    public function updateCategories(Request $request, $id)
+    {
+
+        $this->validate($request, [
+            'name' => 'required|unique:products|min:5',
+            'image' => 'nullable',
+        ]);
+
+        $products = Products::find($id);
+
+        $products->name = $request->input('name');
+        
+        if (request()->hasFile('image')) {
+            $image = $request->file('image');
+            $source = 'images';
+            $image->move($source,$image->getClientOriginalName());
+            $products->image = $image->getClientOriginalName();
+        } else {
+            $products->image = null;
+        }
+
+        $products->save();
+        
+        return back()->with('success', 'Category Updated!');
     }
 
     /**
@@ -150,6 +187,12 @@ class GuestController extends Controller
     public function destroy($id)
     {
         Flowers::destroy($id);
-        return redirect('/manager')->with('status', 'Flower deleted!');
+        return redirect('/manager')->with('success', 'Flower deleted!');
+    }
+
+    public function destroyCategories($id)
+    {
+        Products::destroy($id);
+        return redirect('/categories')->with('success', 'Category deleted!');
     }
 }
