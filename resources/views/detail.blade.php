@@ -2,6 +2,15 @@
 
 @section('content')
 <div class="container">
+    <div class="row">
+        <div class="col-sm-4">
+            @if (session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
+        </div>
+    </div>
     <div class="row justify-content-center">
         <div class="col-md-8">
             @guest
@@ -9,7 +18,7 @@
                 <p>{{$data->name}}</p>
                 <p>{{$data->price}}</p>
                 <p>{{$data->description}}</p>
-                <form action="{{url('/'.$data->id.'/product/update')}}" method="post" enctype="multipart/form-data">
+                <form action="{{url('/cart')}}" method="post" enctype="multipart/form-data">
                     @csrf
                     Quantity: <input type="number" name="quantity" id="" value="1"><br>
                     <input type="submit" value="Add to Cart">
@@ -20,9 +29,10 @@
                 <p>{{$data->price}}</p>
                 <p>{{$data->description}}</p>
                 @if (!Auth::user()->roles->contains(1))
-                <form action="" method="post" enctype="multipart/form-data">
+                <form action="{{url('/cart')}}" method="post" enctype="multipart/form-data">
                     @csrf
                     Quantity: <input type="number" name="quantity" id="" value="1"><br>
+                    <input type="hidden" name="id" value="{{ $data->id }}" class="form-control">
                     <input type="submit" value="Add to Cart">
                 </form>
                 @endif

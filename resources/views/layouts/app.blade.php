@@ -76,7 +76,7 @@
                                         </a>
                                     @endif
                                     @if (!Auth::user()->roles->contains(1))
-                                        <a class="dropdown-item" href="{{ route('logout') }}"
+                                        <a class="dropdown-item" href="{{ url('/cart') }}"
                                         onclick="">
                                         {{ __('My Cart') }}
                                         </a>

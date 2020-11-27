@@ -20,7 +20,7 @@ Route::get('/', function () {
 Auth::routes();
 
 // global
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'HomeController@index');
 Route::get('/', 'GuestController@index');
 Route::get('/{id}/product','GuestController@show');
 Route::get('/{id}/detail','GuestController@detail');
@@ -33,7 +33,10 @@ Route::get('/{id}/product/edit','GuestController@edit')->middleware('auth','chec
 Route::post('/{id}/product/update','GuestController@update')->middleware('auth','checkAdmin'); //update flower
 Route::get('/{id}/product/delete','GuestController@destroy')->middleware('auth','checkAdmin'); //delete flower
 Route::get('/categories','GuestController@categories')->middleware('auth','checkAdmin'); //view manage categories
-
 Route::get('/{id}/categories/edit','GuestController@editCategories')->middleware('auth','checkAdmin'); //edit categories
 Route::post('/{id}/categories/update','GuestController@updateCategories')->middleware('auth','checkAdmin'); //update categories
 Route::get('/{id}/categories/delete','GuestController@destroyCategories')->middleware('auth','checkAdmin'); //delete categories
+
+Route::post('/cart','GuestController@addToCart')->middleware('auth'); // add to cart
+Route::get('/cart','GuestController@cart')->middleware('auth'); // view add to cart
+Route::post('/cart/update','GuestController@updateCart')->middleware('auth'); // update to cart

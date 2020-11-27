@@ -31,6 +31,17 @@ class GuestController extends Controller
         return view('manageCategories', compact('products'));
     }
 
+    public function cart() {
+        
+        $carts = json_decode(request()->cookie('carts'), true);
+
+        $subtotal = collect($carts)->sum(function($q) {
+            return $q['quantity'] * $q['price']; 
+        });
+        
+        return view('cart', compact('carts', 'subtotal'));
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -70,6 +81,55 @@ class GuestController extends Controller
         $flower->save();
 
         return back()->with('success', 'Flower Uploaded Successfully');
+    }
+
+    public function addToCart(Request $request) {
+
+        $this->validate($request, [
+            'id' => 'required|exists:flowers,id',
+            'quantity' => 'required|integer'
+        ]);
+        
+        $carts = json_decode($request->cookie('cart'), true);
+        
+        if ($carts && array_key_exists($request->id, $carts)) {
+            $carts[$request->id]['quantity'] += $request->quantity;
+        } else {
+        
+            $flowers = Flowers::find($request->id);
+            
+            $carts[$request->id] = [
+                'quantity' => $request->quantity,
+                'id' => $flowers->id,
+                'name' => $flowers->name,
+                'price' => $flowers->price,
+                'image' => $flowers->image
+            ];
+        }
+
+        $cookie = cookie('carts', json_encode($carts), 10080);
+
+        return redirect()->back()->cookie($cookie)->with('success', 'Flower Successfully Add to Cart');
+    }
+
+    public function updateCart(Request $request) {
+        
+        $carts = json_decode(request()->cookie('carts'), true);
+        $id = $request->id;
+        $quantity = $request->quantity;
+        $quantity = implode("",$quantity);
+        
+        if($quantity == 0) {
+            // dd("tes 1");
+            unset($carts[$id]);
+        } else {
+            // dd("tes 2");
+            $carts[$id]['quantity'] = $quantity;
+        }
+        
+        $cookie = cookie('carts', json_encode($carts), 10080);
+        
+        return redirect()->back()->cookie($cookie)->with('success', 'Cart Successfully Updated');
     }
 
     /**
