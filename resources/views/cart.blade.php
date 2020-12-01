@@ -31,7 +31,8 @@
         
         @if(count($carts) > 0)
         <div class="col-md-8">
-            <form action="">
+            <form action="cart/checkout" method="POST" enctype="multipart/form-data">
+                @csrf
                 <input type="submit" value="Checkout">
             </form>
         </div>

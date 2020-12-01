@@ -40,3 +40,5 @@ Route::get('/{id}/categories/delete','GuestController@destroyCategories')->middl
 Route::post('/cart','GuestController@addToCart')->middleware('auth'); // add to cart
 Route::get('/cart','GuestController@cart')->middleware('auth'); // view add to cart
 Route::post('/cart/update','GuestController@updateCart')->middleware('auth'); // update to cart
+Route::post('/cart/checkout','GuestController@checkout')->middleware('auth'); // checkout
+Route::get('/history','GuestController@history')->middleware('auth'); // view add to cart

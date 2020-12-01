@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Products;
 use App\Flowers;
+use App\History;
+use App\HistoryDetail;
 
 class GuestController extends Controller
 {
@@ -42,14 +44,51 @@ class GuestController extends Controller
         return view('cart', compact('carts', 'subtotal'));
     }
 
+    public function history() {
+        $user = Auth::user()->id;
+
+        $history = DB::table('histories')
+                    ->where('user_id', $user)
+                    ->orderBy('id', 'DESC')->get();
+        // dd($history);
+        return view('history', compact('history'));
+    }
+
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function checkout()
     {
-        //
+        $carts = json_decode(request()->cookie('carts'), true);
+
+        $subtotal = collect($carts)->sum(function($q) {
+            return $q['quantity'] * $q['price']; 
+        });
+
+        // dd($subtotal);
+        $user = Auth::user()->id;
+        
+        $history = new History();
+        $history->user_id = $user;
+        $history->total_price = $subtotal;
+        $history->save();
+
+        $historyId = $history->id;
+
+        foreach($carts as $c) {
+            $historyDetail = new HistoryDetail();
+            $historyDetail->history_id = $historyId;
+            $historyDetail->flower_id = $c['id'];
+            $historyDetail->quantity = $c['quantity'];
+            $historyDetail->subtotal = $c['price'] * $c['quantity'];
+            $historyDetail->save();
+            unset($c);
+        }
+
+        return back()->with('success', 'Checkout Successfully');
+        
     }
 
     /**
@@ -120,10 +159,8 @@ class GuestController extends Controller
         $quantity = implode("",$quantity);
         
         if($quantity == 0) {
-            // dd("tes 1");
             unset($carts[$id]);
         } else {
-            // dd("tes 2");
             $carts[$id]['quantity'] = $quantity;
         }
         

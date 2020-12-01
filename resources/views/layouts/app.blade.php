@@ -80,7 +80,7 @@
                                         onclick="">
                                         {{ __('My Cart') }}
                                         </a>
-                                        <a class="dropdown-item" href="{{ route('logout') }}"
+                                        <a class="dropdown-item" href="{{ url('/history') }}"
                                         onclick="">
                                         {{ __('Transaction History') }}
                                         </a>
