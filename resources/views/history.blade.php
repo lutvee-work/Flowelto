@@ -14,7 +14,8 @@
     <div class="row justify-content-center">
         @foreach($history as $h)
         <div class="col-md-8">
-            <a href="">Transaction at {{$h->created_at}}</a>
+            <a href="{{url('/'.$h->id.'/history')}}">Transaction at {{$h->created_at}}</a>
+            <a href="{{url('/'.$h->id.'/history/delete')}}">Delete</a>
         </div>
         @endforeach
     </div>

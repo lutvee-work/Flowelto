@@ -50,7 +50,7 @@ class GuestController extends Controller
         $history = DB::table('histories')
                     ->where('user_id', $user)
                     ->orderBy('id', 'DESC')->get();
-        // dd($history);
+        
         return view('history', compact('history'));
     }
 
@@ -67,7 +67,6 @@ class GuestController extends Controller
             return $q['quantity'] * $q['price']; 
         });
 
-        // dd($subtotal);
         $user = Auth::user()->id;
         
         $history = new History();
@@ -76,18 +75,21 @@ class GuestController extends Controller
         $history->save();
 
         $historyId = $history->id;
-
-        foreach($carts as $c) {
+        foreach($carts as $c => $val) {
             $historyDetail = new HistoryDetail();
             $historyDetail->history_id = $historyId;
-            $historyDetail->flower_id = $c['id'];
-            $historyDetail->quantity = $c['quantity'];
-            $historyDetail->subtotal = $c['price'] * $c['quantity'];
+            $historyDetail->flower_id = $val['id'];
+            $historyDetail->quantity = $val['quantity'];
+            $historyDetail->subtotal = $val['price'] * $val['quantity'];
             $historyDetail->save();
-            unset($c);
+            unset($carts[$c]);
         }
 
-        return back()->with('success', 'Checkout Successfully');
+        $carts = array_values($carts);
+
+        $cookie = cookie('carts', json_encode($carts), 10080);
+
+        return back()->cookie($cookie)->with('success', 'Checkout Successfully');
         
     }
 
@@ -129,7 +131,7 @@ class GuestController extends Controller
             'quantity' => 'required|integer'
         ]);
         
-        $carts = json_decode($request->cookie('cart'), true);
+        $carts = json_decode($request->cookie('carts'), true);
         
         if ($carts && array_key_exists($request->id, $carts)) {
             $carts[$request->id]['quantity'] += $request->quantity;
@@ -190,6 +192,24 @@ class GuestController extends Controller
     {
         $data = Flowers::find($id);
         return view('detail', compact('data'));
+    }
+
+    public function historyDetail($id) {
+
+        $history = History::find($id);
+        $totalPrice = $history->total_price;
+
+        $historyDetail = DB::table('history_details')
+                            ->join('flowers', 'history_details.flower_id', '=', 'flowers.id')
+                            ->where('history_details.history_id',$id)
+                            ->get();
+
+        $data = [
+            'totalPrice' => $totalPrice,
+            'historyDetail' => $historyDetail
+        ];
+
+        return view('historyDetail', compact('data'));
     }
 
     /**
@@ -291,5 +311,12 @@ class GuestController extends Controller
     {
         Products::destroy($id);
         return redirect('/categories')->with('success', 'Category deleted!');
+    }
+
+    public function destroyTransaction($id)
+    {
+        HistoryDetail::where('history_id',$id)->delete();
+        History::destroy($id);
+        return redirect('/history')->with('success', 'History deleted!');
     }
 }
