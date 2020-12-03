@@ -45,7 +45,9 @@
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                
+                                @foreach($categories as $c)
+                                    <a class="dropdown-item" href="{{{url('/'.$c->id.'/product')}}}">{{$c->name}}</a>
+                                @endforeach
                             </div>
                             
                         </li>
@@ -86,7 +88,7 @@
                                         </a>
                                     @endif
                                     
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
+                                    <a class="dropdown-item" href="{{ url('/change-password') }}"
                                        onclick="">
                                         {{ __('Change Password') }}
                                     </a>

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use App\User;
 use App\Products;
 use App\Flowers;
 use App\History;
@@ -52,6 +54,10 @@ class GuestController extends Controller
                     ->orderBy('id', 'DESC')->get();
         
         return view('history', compact('history'));
+    }
+
+    public function changePasswordView(){
+        return view('changePassword');
     }
 
     /**
@@ -171,6 +177,22 @@ class GuestController extends Controller
         return redirect()->back()->cookie($cookie)->with('success', 'Cart Successfully Updated');
     }
 
+    public function changePassword(Request $request) {
+
+        $check = Hash::check($request->your_password, auth()->user()->password);
+
+        $this->validate($request, [
+            'your_password' => 'required:$check',
+            'new_password' => 'required|min:8',
+            'new_confirm_password' => 'required|same:new_password',
+        ]);
+   
+        User::find(auth()->user()->id)->update(['password'=> Hash::make($request->new_password)]);
+
+        return back()->with('success', 'Password Successfully Updated');
+
+    }
+
     /**
      * Display the specified resource.
      *
@@ -186,6 +208,27 @@ class GuestController extends Controller
             'products' => $products
         ];
         return view('product', compact('data'));
+    }
+
+    public function search(Request $request, $id) {
+
+        $products = Products::find($id);
+
+        $search = $request->search;
+
+        // belom pake filter name blabla
+        
+        $flowers = DB::table('flowers')
+                        ->where('product_id', $id)
+                        ->where('name','like',"%".$search."%")
+                        ->paginate(8);
+        
+        $data = [
+            'flowers' => $flowers,
+            'products' => $products,
+            'search' => $search
+        ];
+        return view('search', compact('data'));
     }
 
     public function detail($id)

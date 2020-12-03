@@ -23,7 +23,10 @@ Auth::routes();
 Route::get('/home', 'HomeController@index');
 Route::get('/', 'GuestController@index');
 Route::get('/{id}/product','GuestController@show');
+Route::get('/{id}/product/search','GuestController@search');
 Route::get('/{id}/detail','GuestController@detail');
+Route::get('/change-password', 'GuestController@changePasswordView');
+Route::post('/change-password', 'GuestController@changePassword');
 
 //manager
 Route::get('/manager', 'HomeController@manager')->middleware('auth','checkAdmin');
