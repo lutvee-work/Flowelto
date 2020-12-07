@@ -25,7 +25,7 @@ class ComposerServiceProvider extends ServiceProvider
     public function boot()
     {
         View::composer(
-            ['addFlower', 'cart', 'changePassword', 'detail', 'edit', 'editCategories', 'history', 'historyDetail', 'home', 'manageCategories', 'manager', 'product', 'search', 'welcome',],
+            ['addFlower', 'cart', 'changePassword', 'detail', 'edit', 'editCategories', 'history', 'historyDetail', 'home', 'auth.login', 'manageCategories', 'manager', 'product', 'auth.register', 'search', 'welcome',],
             'App\Http\Composers\NavigationComposer'
         );
     }

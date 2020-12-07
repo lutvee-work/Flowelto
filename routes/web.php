@@ -20,7 +20,6 @@ Route::get('/', function () {
 Auth::routes();
 
 // global
-Route::get('/home', 'HomeController@index');
 Route::get('/', 'GuestController@index');
 Route::get('/{id}/product','GuestController@show');
 Route::get('/{id}/product/search','GuestController@search');
@@ -29,7 +28,6 @@ Route::get('/change-password', 'GuestController@changePasswordView');
 Route::post('/change-password', 'GuestController@changePassword');
 
 //manager
-Route::get('/manager', 'HomeController@manager')->middleware('auth','checkAdmin');
 Route::get('/add','GuestController@add')->middleware('auth','checkAdmin'); //view add flower
 Route::post('/add','GuestController@store')->middleware('auth','checkAdmin'); //add flower
 Route::get('/{id}/product/edit','GuestController@edit')->middleware('auth','checkAdmin'); //edit flower

@@ -12,12 +12,14 @@
         </div>
     </div>
     <div class="row justify-content-center">
-        @foreach($history as $h)
+        @forelse($history as $h)
         <div class="col-md-8">
             <a href="{{url('/'.$h->id.'/history')}}">Transaction at {{$h->created_at}}</a>
             <a href="{{url('/'.$h->id.'/history/delete')}}">Delete</a>
         </div>
-        @endforeach
+        @empty
+        <h1>Empty Transaction!!!</h1>
+        @endforelse
     </div>
 </div>
 @endsection

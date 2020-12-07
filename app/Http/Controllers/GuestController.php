@@ -215,13 +215,24 @@ class GuestController extends Controller
         $products = Products::find($id);
 
         $search = $request->search;
-
-        // belom pake filter name blabla
+        $filter = $request->filter;
         
-        $flowers = DB::table('flowers')
+        if($filter == "name") {
+            $flowers = DB::table('flowers')
                         ->where('product_id', $id)
                         ->where('name','like',"%".$search."%")
                         ->paginate(8);
+        } else if($filter == "price") {
+
+            if($search < 50000) {
+                return back()->with('failed', 'The price is no less than 50.000');
+            }
+
+            $flowers = DB::table('flowers')
+                        ->where('product_id', $id)
+                        ->whereBetween('price', [50000, $search])
+                        ->paginate(8);
+        }
         
         $data = [
             'flowers' => $flowers,
@@ -309,7 +320,7 @@ class GuestController extends Controller
 
         $flowers->save();
         
-        return redirect('/manager')->with('success', 'Flower Updated!');
+        return back()->with('success', 'Flower Updated!');
     }
 
     public function updateCategories(Request $request, $id)
@@ -347,7 +358,7 @@ class GuestController extends Controller
     public function destroy($id)
     {
         Flowers::destroy($id);
-        return redirect('/manager')->with('success', 'Flower deleted!');
+        return back()->with('success', 'Flower deleted!');
     }
 
     public function destroyCategories($id)

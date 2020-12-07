@@ -81,7 +81,12 @@
                             <label for="image" class="col-md-4 col-form-label text-md-right">{{ __('Flower image') }}</label>
 
                             <div class="col-md-6">
-                                <input type="file" name="image" id="image" class="form-control @error('image') is-invalid @enderror">
+                                <div class="input-group mb-3">
+                                    <div class="custom-file">
+                                            <input type="file" name="image" id="image" class="form-control @error('image') is-invalid @enderror">
+                                        <label class="custom-file-label" for="image">Choose Image</label>
+                                    </div>
+                                </div>
                                 @error('image')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>

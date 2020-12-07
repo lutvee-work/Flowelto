@@ -11,13 +11,24 @@
             @endif
         </div>
     </div>
+
+    <div class="row justify-content-center">
+        <h1>Manage Categories</h1>
+    </div>
+
     <div class="row justify-content-center">
         @foreach($products as $p)
-        <div class="col-md-8">
-            <img src="images/{{$p->image}}" width="400" height="400" alt="">
-            <a href="{{url('/'.$p->id.'/product')}}">{{$p->name}}</a>
-            <a href="{{url('/'.$p->id.'/categories/delete')}}">Delete Category</a>
-            <a href="{{url('/'.$p->id.'/categories/edit')}}">Update Category</a>
+        <div class="col-md-4">
+            <div class="card-deck">
+                <div class="card">
+                    <img class="card-img-top" src="images/{{$p->image}}" width="400" height="400" alt="">
+                    <div class="card-body">
+                        <a class="card-title" href="{{url('/'.$p->id.'/product')}}"> <h2><b>{{$p->name}}</b></h2> </a>
+                        <a class="btn btn-danger" href="{{url('/'.$p->id.'/categories/delete')}}">Delete Category</a>
+                        <a class="btn btn-primary" href="{{url('/'.$p->id.'/categories/edit')}}">Update Category</a>
+                    </div>
+                </div>
+            </div>
         </div>
         @endforeach
     </div>

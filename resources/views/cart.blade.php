@@ -28,7 +28,7 @@
         @empty
         <h1>Empty Cart!!!</h1>
         @endforelse
-        
+        {{-- blom dibenerin tampilan nya --}}
         @if(count($carts) > 0)
         <div class="col-md-8">
             <form action="cart/checkout" method="POST" enctype="multipart/form-data">

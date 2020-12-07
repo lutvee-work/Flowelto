@@ -27,12 +27,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $products = Products::all();
-        return view('home', compact('products'));
+       //
     }
 
-    public function manager() {
-        $products = Products::all();
-        return view('manager', compact('products'));
-    }
 }
