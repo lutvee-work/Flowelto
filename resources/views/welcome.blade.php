@@ -12,7 +12,7 @@
             <div class="card-group">
                 <div class="card">
                     <a href="{{url('/'.$p->id.'/product')}}">
-                        <img class="card-img-top" src="images/{{$p->image}}" width="400" height="400" alt="">
+                        <img class="card-img-top" src="/storage/images/{{$p->image}}" width="400" height="400" alt="">
                     </a>
                     <div class="card-body">
                         <a class="card-title" href="{{url('/'.$p->id.'/product')}}">{{$p->name}}</a> 

@@ -14,7 +14,7 @@
     <div class="row justify-content-center">
         @forelse($carts as $c)
         <div class="col-md-8">
-            <img src="../images/{{$c['image']}}" width="400" height="400" alt="">
+            <img src="/storage/images/{{$c['image']}}" width="400" height="400" alt="">
             <p>{{$c['name']}}</p>
             <p>Rp. {{ number_format($c['price'] * $c['quantity']) }}</p>
 

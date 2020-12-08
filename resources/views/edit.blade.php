@@ -18,7 +18,7 @@
             
             <div class="card">
                 <div class="card-header">
-                    <img class="mx-auto d-block" src="/images/{{$data->image}}" width="400" height="400" alt="">
+                    <img class="mx-auto d-block" src="/storage/images/{{$data->image}}" width="400" height="400" alt="">
                 </div>
 
                 <div class="card-body">

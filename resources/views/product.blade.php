@@ -37,12 +37,12 @@
 
     <div class="row justify-content-center">
         @foreach($data['flowers'] as $f)
-        <div class="col-md-4">
+        <div class="col-md-4 mt-5">
             @guest
             <div class="card-deck">
                 <div class="card">
                     <a href="{{url('/'.$f->id.'/detail')}}">
-                        <img src="../images/{{$f->image}}" class="card-img-top" width="400" height="400" alt="">
+                        <img src="/storage/images/{{$f->image}}" class="card-img-top" width="400" height="400" alt="">
                     </a>
                     <div class="card-body">
                         <a class="card-title" href="{{url('/'.$f->id.'/detail')}}">{{$f->name}}</a>
@@ -54,7 +54,7 @@
                 <div class="card-deck">
                     <div class="card">
                         <a href="{{url('/'.$f->id.'/detail')}}">
-                            <img src="../images/{{$f->image}}" class="card-img-top" width="400" height="400" alt="">
+                            <img src="/storage/images/{{$f->image}}" class="card-img-top" width="400" height="400" alt="">
                         </a>
                         <div class="card-body text-center">
                             <a class="card-title" href="{{url('/'.$f->id.'/detail')}}"> <h4><b>{{$f->name}}</b></h4> </a>
@@ -70,5 +70,6 @@
         </div>
         @endforeach
     </div>
+    {{ $data['flowers']->links() }}
 </div>
 @endsection

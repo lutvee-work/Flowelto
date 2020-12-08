@@ -21,7 +21,7 @@
         <div class="col-md-4">
             <div class="card-deck">
                 <div class="card">
-                    <img class="card-img-top" src="images/{{$p->image}}" width="400" height="400" alt="">
+                    <img class="card-img-top" src="/storage/images/{{$p->image}}" width="400" height="400" alt="">
                     <div class="card-body">
                         <a class="card-title" href="{{url('/'.$p->id.'/product')}}"> <h2><b>{{$p->name}}</b></h2> </a>
                         <a class="btn btn-danger" href="{{url('/'.$p->id.'/categories/delete')}}">Delete Category</a>

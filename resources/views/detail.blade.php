@@ -16,7 +16,7 @@
             <div class="card">
                 @guest
                     <div class="card-header">
-                        <img class="mx-auto d-block" src="../images/{{$data->image}}" width="400" height="400" alt="">
+                        <img class="mx-auto d-block" src="/storage/images/{{$data->image}}" width="400" height="400" alt="">
                     </div>
                     <div class="card-body">
                         <p class="card-title">{{$data->name}}</p>
@@ -30,7 +30,7 @@
                     </div>
                 @else
                     <div class="card-header">
-                        <img class="mx-auto d-block" src="../images/{{$data->image}}" width="400" height="400" alt="">
+                        <img class="mx-auto d-block" src="/storage/images/{{$data->image}}" width="400" height="400" alt="">
                     </div>
                     <div class="card-body text-center">
                         <h2 class="card-title">{{$data->name}}</h2>

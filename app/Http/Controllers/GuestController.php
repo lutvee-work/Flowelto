@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use App\User;
 use App\Products;
 use App\Flowers;
@@ -116,8 +117,8 @@ class GuestController extends Controller
         ]);
 
         $image = $request->file('image');
-        $source = 'images';
-        $image->move($source,$image->getClientOriginalName());
+        $source = '/public/images/' . $image->getClientOriginalName();
+        Storage::put($source, file_get_contents($image->getRealPath()));
 
         $flower = new Flowers();
         $flower->product_id = $request->product_id;
@@ -313,8 +314,8 @@ class GuestController extends Controller
         if (request()->hasFile('image')) {
 
             $image = $request->file('image');
-            $source = 'images';
-            $image->move($source,$image->getClientOriginalName());
+            $source = '/public/images/' . $image->getClientOriginalName();
+            Storage::put($source, file_get_contents($image->getRealPath()));
             $flowers->image = $image->getClientOriginalName();
         }
 
@@ -337,8 +338,8 @@ class GuestController extends Controller
         
         if (request()->hasFile('image')) {
             $image = $request->file('image');
-            $source = 'images';
-            $image->move($source,$image->getClientOriginalName());
+            $source = '/public/images/' . $image->getClientOriginalName();
+            Storage::put($source, file_get_contents($image->getRealPath()));
             $products->image = $image->getClientOriginalName();
         } else {
             $products->image = null;

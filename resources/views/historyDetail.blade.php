@@ -21,7 +21,7 @@
             </tr>
             @foreach($data['historyDetail'] as $h)
             <tr>
-                <td><img src="../images/{{$h->image}}" width="300" height="300" alt=""></td>
+                <td><img src="/storage/images/{{$h->image}}" width="300" height="300" alt=""></td>
                 <td>{{$h->name}}</td>
                 <td>Rp. {{number_format($h->subtotal)}}</td>
                 <td>{{$h->quantity}}</td>
