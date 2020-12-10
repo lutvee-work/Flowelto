@@ -12,7 +12,7 @@
         </div>
     </div>
     <div class="row justify-content-center">
-        <table border="1" style="text-align:center">
+        <table class="table table-bordered text-center">
             <tr>
                 <th>Flower Image</th>
                 <th>Flower Name</th>
@@ -22,15 +22,15 @@
             @foreach($data['historyDetail'] as $h)
             <tr>
                 <td><img src="/storage/images/{{$h->image}}" width="300" height="300" alt=""></td>
-                <td>{{$h->name}}</td>
-                <td>Rp. {{number_format($h->subtotal)}}</td>
-                <td>{{$h->quantity}}</td>
+                <td class="align-middle">{{$h->name}}</td>
+                <td class="align-middle">Rp. {{number_format($h->subtotal)}}</td>
+                <td class="align-middle">{{$h->quantity}}</td>
             </tr>
             @endforeach
         </table>
-        <div class="col-md-8">
-            <p>Total Price: Rp. {{number_format($data['totalPrice'])}}</p>
-        </div>
+    </div>
+    <div class="row justify-content-center">
+        <h2>Total Price: Rp. {{number_format($data['totalPrice'])}}</h2>
     </div>
 </div>
 @endsection

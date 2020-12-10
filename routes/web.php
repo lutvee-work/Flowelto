@@ -44,5 +44,9 @@ Route::get('/cart','GuestController@cart')->middleware('auth'); // view add to c
 Route::post('/cart/update','GuestController@updateCart')->middleware('auth'); // update to cart
 Route::post('/cart/checkout','GuestController@checkout')->middleware('auth'); // checkout
 Route::get('/history','GuestController@history')->middleware('auth'); // view add to cart
-Route::get('/{id}/history/delete','GuestController@destroyTransaction')->middleware('auth'); //delete transaction
 Route::get('/{id}/history','GuestController@historyDetail')->middleware('auth'); // view add to cart
+
+//additional
+Route::get('/add-categories', 'GuestController@addCategories')->middleware('auth'); // view add categories
+Route::post('/add-categories', 'GuestController@storeCategories')->middleware('auth'); // add categories
+Route::get('/{id}/history/delete','GuestController@destroyTransaction')->middleware('auth'); //delete transaction

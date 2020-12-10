@@ -61,6 +61,10 @@ class GuestController extends Controller
         return view('changePassword');
     }
 
+    public function addCategories() {
+        return view('addCategories');
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -192,6 +196,25 @@ class GuestController extends Controller
 
         return back()->with('success', 'Password Successfully Updated');
 
+    }
+
+    public function storeCategories(Request $request) {
+
+        $this->validate($request, [
+            'name' => 'required',
+            'image' => 'required',
+        ]);
+
+        $image = $request->file('image');
+        $source = '/public/images/' . $image->getClientOriginalName();
+        Storage::put($source, file_get_contents($image->getRealPath()));
+
+        $flower = new Products();
+        $flower->name = $request->name;
+        $flower->image = $image->getClientOriginalName();
+        $flower->save();
+
+        return back()->with('success', 'Category Added Successfully');
     }
 
     /**
@@ -364,6 +387,7 @@ class GuestController extends Controller
 
     public function destroyCategories($id)
     {
+        Flowers::where('product_id',$id)->delete();
         Products::destroy($id);
         return redirect('/categories')->with('success', 'Category deleted!');
     }

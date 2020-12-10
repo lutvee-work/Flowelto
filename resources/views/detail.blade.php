@@ -18,14 +18,29 @@
                     <div class="card-header">
                         <img class="mx-auto d-block" src="/storage/images/{{$data->image}}" width="400" height="400" alt="">
                     </div>
-                    <div class="card-body">
-                        <p class="card-title">{{$data->name}}</p>
-                        <p class="card-text">{{$data->price}}</p>
+                    <div class="card-body text-center">
+                        <h2 class="card-title">{{$data->name}}</h2>
+                        <p class="card-text">Rp. {{number_format($data->price)}}</p>
                         <p class="card-text">{{$data->description}}</p>
                         <form action="{{url('/cart')}}" method="post" enctype="multipart/form-data">
                             @csrf
-                            Quantity: <input type="number" name="quantity" id="" value="1"><br>
-                            <input type="submit" value="Add to Cart">
+
+                            <div class="form-group row">
+                                <label for="quantity" class="col-md-4 col-form-label text-md-right">{{ __('Quantity') }}</label>
+    
+                                <div class="col-md-6">
+                                    <input class="form-control @error('quantity') is-invalid @enderror" name="quantity" id="quantity" value="{{ old('quantity') }}" required autocomplete="quantity" autofocus type="number" name="quantity" id="" value="1">
+                                    <input type="hidden" name="id" value="{{ $data->id }}" class="form-control">
+                                    @error('quantity')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <input class="btn btn-primary" type="submit" value="Add to Cart">
+
                         </form>
                     </div>
                 @else

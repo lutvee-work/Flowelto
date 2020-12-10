@@ -32,5 +32,8 @@
         </div>
         @endforeach
     </div>
+    <div class="row justify-content-center mt-5">
+        <a class="btn btn-primary" href="{{url('/add-categories')}}">Add Category</a>
+    </div>
 </div>
 @endsection

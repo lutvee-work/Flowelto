@@ -11,14 +11,21 @@
             @endif
         </div>
     </div>
+
+    <div class="row justify-content-center">
+        <h1>Your Transaction History</h1>
+    </div>
+
     <div class="row justify-content-center">
         @forelse($history as $h)
-        <div class="col-md-8">
-            <a href="{{url('/'.$h->id.'/history')}}">Transaction at {{$h->created_at}}</a>
-            <a href="{{url('/'.$h->id.'/history/delete')}}">Delete</a>
+        <div class="col-md-4">
+            <a class="btn btn-outline-dark" href="{{url('/'.$h->id.'/history')}}">Transaction at {{$h->created_at}}</a>
+            <a class="btn btn-danger" href="{{url('/'.$h->id.'/history/delete')}}">Delete</a>
         </div>
         @empty
-        <h1>Empty Transaction!!!</h1>
+        <div class="row justify-content-center">
+            <h1>Empty Transaction!!!</h1>
+        </div>
         @endforelse
     </div>
 </div>
