@@ -139,7 +139,7 @@ class GuestController extends Controller
 
         $this->validate($request, [
             'id' => 'required|exists:flowers,id',
-            'quantity' => 'required|integer'
+            'quantity' => 'required|integer|min:1'
         ]);
         
         $carts = json_decode($request->cookie('carts'), true);

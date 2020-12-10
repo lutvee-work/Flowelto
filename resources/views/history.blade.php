@@ -18,8 +18,8 @@
 
     <div class="row justify-content-center">
         @forelse($history as $h)
-        <div class="col-md-4">
-            <a class="btn btn-outline-dark" href="{{url('/'.$h->id.'/history')}}">Transaction at {{$h->created_at}}</a>
+        <div class="col-md-8 mt-3 text-center">
+            <a class="btn btn-outline-dark mr-2" href="{{url('/'.$h->id.'/history')}}">Transaction at {{$h->created_at}}</a>
             <a class="btn btn-danger" href="{{url('/'.$h->id.'/history/delete')}}">Delete</a>
         </div>
         @empty

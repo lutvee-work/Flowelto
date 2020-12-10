@@ -38,7 +38,7 @@
 
     <div class="row justify-content-center">
     @forelse($data['flowers'] as $f)
-        <div class="col-md-4">
+        <div class="col-md-4 mt-5">
             @guest
                 <div class="card-deck">
                     <div class="card">
